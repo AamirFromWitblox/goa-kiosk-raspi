@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Goa Display</title>
+    <style>
+        video {
+            object-fit: contain;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #000;
+        }
+	html,body{
+    		margin:0;
+    		height:100%;
+	}
+	img{
+  		display:block;
+  		width:100%;
+  		height:100%;
+  		object-fit: cover;
+	}
+    </style>
+</head>
+
+<body>
+    <video id="video_player" src="http://localhost:3001/file/a.jpeg" type="video/mp4" autoplay muted loop>    
+</video>
+<img id="img" src="http://localhost:3001/file/a.jpeg" alt="..." />
+    <!-- <video src="Trees/MattiTree.mp4" autoplay muted loop width="500px"></video> -->
+    <script src="http://localhost:3001/socket.io/socket.io.js"></script>    
+    <script>
+	const videoPlayer = document.getElementById("video_player");
+	const img = document.getElementById("img");
+
+	 videoPlayer.setAttribute("style", "display: none");
+       const socket = io();
+	socket.on("alert", (activePage) => {
+		if(activePage === "none"){
+			img.setAttribute("style", "display: block");
+			videoPlayer.setAttribute("style", "display: none");
+		}else{
+			videoPlayer.setAttribute("style", "display: block");
+			 img.setAttribute("style", "display: none");
+			videoPlayer.setAttribute("src", `http://localhost:3001/file/${activePage}.mp4`);
+			console.log(videoPlayer.src);
+		}
+	});
+    </script>
+</body>
+
